@@ -1,0 +1,9 @@
+.PHONY: psql
+
+psql: docker_setup
+    docker exec -it db psql -U postgres
+
+docker_setup:
+    # This target can be used to set up your Docker environment if needed.
+    # You may need to start Docker containers, build images, etc.
+    # For now, we leave it empty assuming your Docker environment is already set up.

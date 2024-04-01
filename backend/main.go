@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -18,8 +17,8 @@ type User struct {
 }
 
 func main() {
-
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	DATABASE_URL := "postgres://postgres:postgres123@localhost:5432/postgres?sslmode=disable"
+	db, err := sql.Open("postgres", DATABASE_URL)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,7 +45,7 @@ func enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Context-Type")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
